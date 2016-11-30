@@ -10,5 +10,4 @@ class User < ActiveRecord::Base
                        length: { minimum: 2, maximum: 20 }
   validates :comment, allow_blank: true, 
                        length: { minimum: 2, maximum: 200 }
-  #validates :comment, allow_blank: true,
 end
