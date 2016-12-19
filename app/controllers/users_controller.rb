@@ -3,9 +3,7 @@ class UsersController < ApplicationController
 
   def show # 追加
    @user = User.find(params[:id])
-   @microposts = @user.microposts.order(created_at: :desc)
-   @following = @user.microposts.order(created_at: :desc)
-   @follower = @user.microposts.order(created_at: :desc)
+   @microposts = @user.microposts.order(created_at: :desc).page(params[:page]).per(10)
   end
   
   def new
@@ -39,7 +37,7 @@ class UsersController < ApplicationController
   def followings
     @title = "フォロー"
     @user = User.find(params[:id])
-    @users = @user.following_users#.page(params[:page]).per(1)
+    @users = @user.following_users.page(params[:page]).per(10)
     #@users = User.find(parms[:id]).following_users
     render 'show_follow'
   end
@@ -47,9 +45,10 @@ class UsersController < ApplicationController
   def followers
     @title = "フォロワー"
     @user = User.find(params[:id])
-    @users = @user.follower_users#.page(params[:page])
+    @users = @user.follower_users.page(params[:page]).per(10)
     render 'show_follow'
   end
+
 
   private
 
@@ -62,4 +61,5 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     redirect_to root_path if @user != current_user
   end
+
 end
